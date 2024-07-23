@@ -31,6 +31,15 @@ def get_ticker_symbol(company_name):
     ticker_symbol = code[0]
     return ticker_symbol
 
+def stock_graph2(df):
+    x_data = df.index
+    fig = go.Figure(data=[go.Candlestick(x=x_data,
+                open=df['Open'],
+                high=df['High'],
+                low=df['Low'],
+                close=df['Close'])])
+    st.plotly_chart(fig)
+
 
 def stock_graph(df):
     x_data = df.index
@@ -60,7 +69,7 @@ with st.sidebar:
     stock_name = st.text_input("회사이름", "삼성전자")
     date_range = st.date_input(label='시작일 - 종료일',
                 value=(dt(year=2024, month=7, day=1), 
-                        dt(year=2024, month=7, day=10)),
+                        dt(year=2024, month=7, day=22)),
                 key='#date_range',
                 help="The start and end date time")
     button_result = st.button('주가 데이터 확인')
@@ -79,7 +88,7 @@ if button_result:
     st.subheader(f"[{stock_name}] 주가 데이터")
     st.dataframe(df.tail(7))
     ####################################
-    stock_graph(df)
+    stock_graph2(df)
     #####################################
 
     excel_data = BytesIO()      
